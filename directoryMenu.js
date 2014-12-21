@@ -40,10 +40,10 @@ const DirectoryMenu = new Lang.Class({
 
   _init: function() {
     this.parent(0.0, _("FilesMenu"));
-    let label = new St.Label({ text: _("Home \u25BE"),
+    this.label = new St.Label({ text: _(homeText + arrowText),
                                y_expand: true,
                                y_align: Clutter.ActorAlign.CENTER });
-    this.actor.add_actor(label);
+    this.actor.add_actor(this.label);
     this.home_dir = Gio.file_new_for_path(GLib.get_home_dir());
     this.current_dir = this.home_dir;
 
@@ -54,6 +54,7 @@ const DirectoryMenu = new Lang.Class({
 
   changeDirectory: function(file_info) {
     this.current_dir = file_info;
+    this.setLabel();
     this.loadDirectory();
   },
 
@@ -63,12 +64,24 @@ const DirectoryMenu = new Lang.Class({
     this.addDirContents();
   },
 
+  setLabel: function() {
+    let text = _(homeText + arrowText);
+    if (!this.currentDirIsHome()) {
+      text = _(this.current_dir.get_basename() + arrowText);
+    }
+    this.label.set_text(text);
+  },
+
+  currentDirIsHome: function() {
+    return this.current_dir.get_path() == this.home_dir.get_path();
+  },
+
   clearMenu: function() {
     this.menu.removeAll();
   },
 
   addHeader: function() {
-    if (this.current_dir.get_path() != this.home_dir.get_path()) {
+    if (!this.currentDirIsHome()) {
       this.menu.addMenuItem(this.makeHomeItem());
     }
     this.menu.addMenuItem(this.makeCurrentDirItem());
@@ -154,6 +167,8 @@ const DirectoryMenu = new Lang.Class({
   }
 });
 
+var arrowText = " \u25BE";
+var homeText = "Home";
 
 function isDirectory(file) {
   return Gio.FileType.DIRECTORY == file.get_file_type();
