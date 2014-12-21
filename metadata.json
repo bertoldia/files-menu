@@ -1,0 +1,10 @@
+{
+  "shell-version": ["3.14"],
+  "version": "0.1",
+  "uuid": "files-menu",
+  "name": "Files Menu",
+  "description": "Quickly navigate your file system and open files through a menu.",
+  "url": "https://github.com/bertoldia/files-menu",
+  "localedir": "locale",
+  "original-authors": "Axel von Bertoldi"
+}
