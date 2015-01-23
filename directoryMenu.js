@@ -26,7 +26,7 @@ const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
 const Lang = imports.lang;
 const Clutter = imports.gi.Clutter;
-const Gettext = imports.gettext.domain("gnome-shell-files-menu");
+const Gettext = imports.gettext.domain("files-menu");
 const _ = Gettext.gettext;
 
 const ExtensionUtils = imports.misc.extensionUtils;
@@ -39,8 +39,8 @@ const DirectoryMenu = new Lang.Class({
   Extends: PanelMenu.Button,
 
   _init: function() {
-    this.parent(0.0, _("FilesMenu"));
-    this.label = new St.Label({ text: _(homeText + arrowText),
+    this.parent(0.0, "FilesMenu");
+    this.label = new St.Label({ text: _(homeText) + arrowText,
                                y_expand: true,
                                y_align: Clutter.ActorAlign.CENTER });
     this.actor.add_actor(this.label);
@@ -65,9 +65,9 @@ const DirectoryMenu = new Lang.Class({
   },
 
   setLabel: function() {
-    let text = _(homeText + arrowText);
+    let text = _(homeText) + arrowText;
     if (!this.currentDirIsHome()) {
-      text = _(this.current_dir.get_basename() + arrowText);
+      text = this.current_dir.get_basename() + arrowText;
     }
     this.label.set_text(text);
   },
@@ -137,14 +137,14 @@ const DirectoryMenu = new Lang.Class({
   },
 
   makeHomeItem: function() {
-    return new MenuItem("Home", "user-home-symbolic", null,
+    return new MenuItem(_("Home"), "user-home-symbolic", null,
                         Lang.bind(this, function () {
                           this.changeDirectory(this.home_dir);
                         }));
   },
 
   makeCurrentDirItem: function(file_info) {
-  return new MenuItem("Open " + this.current_dir.get_basename(),
+  return new MenuItem(_("Open") + " " + this.current_dir.get_basename(),
                       "document-open-symbolic", null,
                       Lang.bind(this, function() {
                         this.openItem(this.current_dir);
@@ -168,7 +168,7 @@ const DirectoryMenu = new Lang.Class({
 });
 
 var arrowText = " \u25BE";
-var homeText = "Home";
+var homeText = _("Home");
 
 function isDirectory(file) {
   return Gio.FileType.DIRECTORY == file.get_file_type();
