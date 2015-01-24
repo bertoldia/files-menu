@@ -137,14 +137,14 @@ const DirectoryMenu = new Lang.Class({
   },
 
   makeHomeItem: function() {
-    return new MenuItem(_("Home"), "user-home-symbolic", null,
+    return new MenuItem(_(homeText), "user-home-symbolic", null,
                         Lang.bind(this, function () {
                           this.changeDirectory(this.home_dir);
                         }));
   },
 
   makeCurrentDirItem: function(file_info) {
-  return new MenuItem(_("Open") + " " + this.current_dir.get_basename(),
+  return new MenuItem(_(openText) + " " + this.current_dir.get_basename(),
                       "document-open-symbolic", null,
                       Lang.bind(this, function() {
                         this.openItem(this.current_dir);
@@ -169,6 +169,7 @@ const DirectoryMenu = new Lang.Class({
 
 var arrowText = " \u25BE";
 var homeText = _("Home");
+var openText = _("Open");
 
 function isDirectory(file) {
   return Gio.FileType.DIRECTORY == file.get_file_type();
