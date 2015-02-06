@@ -86,7 +86,9 @@ const DirectoryMenu = new Lang.Class({
     }
     this.menu.addMenuItem(this.makeCurrentDirItem());
     this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
-    this.menu.addMenuItem(this.makeUpItem());
+    if (this.current_dir.has_parent(null)) {
+      this.menu.addMenuItem(this.makeUpItem());
+    }
   },
 
   addDirContents: function(file) {
