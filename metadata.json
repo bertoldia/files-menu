@@ -1,5 +1,5 @@
 {
-  "shell-version": ["3.14"],
+  "shell-version": ["3.14", "3.16"],
   "version": "0.1",
   "uuid": "files-menu",
   "name": "Files Menu",
