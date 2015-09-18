@@ -75,9 +75,19 @@ const DirectoryMenu = new Lang.Class({
     this.home_dir = Gio.file_new_for_path(GLib.get_home_dir());
     this.current_dir = this.home_dir;
 
+    this.createLayout();
+
     this.actor.connect('button-press-event', Lang.bind(this, this.loadDirectory));
     // not sure why this is necessary, but it is...
     this.loadDirectory();
+  },
+
+  createLayout: function() {
+    this.header = new PopupMenu.PopupMenuSection();
+    this.menu.addMenuItem(this.header);
+    this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+    this.filesList = new ScrollableMenu();
+    this.menu.addMenuItem(this.filesList);
   },
 
   changeDirectory: function(file_info) {
@@ -105,18 +115,19 @@ const DirectoryMenu = new Lang.Class({
   },
 
   clearMenu: function() {
-    this.menu.removeAll();
+    this.header.removeAll();
+    this.filesList.removeAll();
   },
 
   addHeader: function() {
     if (!this.currentDirIsHome()) {
-      this.menu.addMenuItem(this.makeHomeItem());
+      this.header.addMenuItem(this.makeHomeItem());
     }
-    this.menu.addMenuItem(this.makeCurrentDirItem());
-    this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+    this.header.addMenuItem(this.makeCurrentDirItem());
     if (this.current_dir.has_parent(null)) {
-      this.menu.addMenuItem(this.makeUpItem());
+      this.header.addMenuItem(this.makeUpItem());
     }
+    this.header.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
   },
 
   addDirContents: function(file) {
@@ -136,12 +147,12 @@ const DirectoryMenu = new Lang.Class({
 
     dirs.sort(fileComparator);
     dirs.forEach(Lang.bind(this, function(fi) {
-      this.menu.addMenuItem(this.createItem(fi));
+      this.filesList.addMenuItem(this.createItem(fi));
     }));
-    this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+    this.filesList.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
     files.sort(fileComparator);
     files.forEach(Lang.bind(this, function(fi) {
-      this.menu.addMenuItem(this.createItem(fi));
+      this.filesList.addMenuItem(this.createItem(fi));
     }));
   },
 
@@ -197,6 +208,7 @@ const DirectoryMenu = new Lang.Class({
   }
 });
 
+
 var arrowText = " \u25BE";
 var homeText = "Home";
 var openText = "Open";
@@ -208,6 +220,5 @@ function isDirectory(file) {
 function fileComparator(l, r) {
   return l.get_display_name().localeCompare(r.get_display_name());
 }
-
 
 var ClickBehaviour = Object.freeze({OPEN: 0, CD: 1, DEFAULT: 2});
