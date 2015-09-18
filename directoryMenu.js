@@ -34,6 +34,34 @@ const Self = ExtensionUtils.getCurrentExtension();
 const mi = Self.imports.menuItems;
 const MenuItem = Self.imports.menuItems.MenuItem;
 
+const ScrollableMenu = new Lang.Class({
+  Name: 'ScrollableMenu.ScrollableMenu',
+  Extends: PopupMenu.PopupMenuSection,
+
+  _init: function() {
+    this.parent();
+    let scrollView = new St.ScrollView({
+      x_fill: true,
+      y_fill: false,
+      y_align: St.Align.START,
+      overlay_scrollbars: true,
+      style_class: 'vfade'
+    });
+    this.innerMenu = new PopupMenu.PopupMenuSection();
+    scrollView.add_actor(this.innerMenu.actor);
+    this.actor.add_actor(scrollView);
+  },
+
+  addMenuItem: function(item) {
+    this.innerMenu.addMenuItem(item);
+  },
+
+  removeAll: function() {
+    this.innerMenu.removeAll();
+  }
+});
+
+
 const DirectoryMenu = new Lang.Class({
   Name: 'DirectoryMenu.DirectoryMenu',
   Extends: PanelMenu.Button,
