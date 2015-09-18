@@ -201,6 +201,7 @@ const DirectoryMenu = new Lang.Class({
 
   openItem: function(file) {
     Gio.app_info_launch_default_for_uri(file.get_uri(), null);
+    this.menu.close();
   },
 
   destroy: function() {
