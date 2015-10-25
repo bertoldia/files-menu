@@ -1,10 +1,14 @@
 {
-  "shell-version": ["3.14", "3.16"],
-  "version": "0.1",
+  "version": "0.2",
   "uuid": "files-menu",
   "name": "Files Menu",
   "description": "Quickly navigate your file system and open files through a menu.",
   "url": "https://github.com/bertoldia/files-menu",
   "localedir": "locale",
-  "original-authors": "Axel von Bertoldi"
+  "original-authors": "Axel von Bertoldi",
+  "shell-version": [
+    "3.14",
+    "3.16",
+    "3.18"
+  ]
 }
