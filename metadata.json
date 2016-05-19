@@ -7,8 +7,9 @@
   "localedir": "locale",
   "original-authors": "Axel von Bertoldi",
   "shell-version": [
-    "3.14",
+    "3.20",
+    "3.18",
     "3.16",
-    "3.18"
+    "3.14"
   ]
 }
