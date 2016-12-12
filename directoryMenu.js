@@ -85,7 +85,6 @@ const DirectoryMenu = new Lang.Class({
   createLayout: function() {
     this.header = new PopupMenu.PopupMenuSection();
     this.menu.addMenuItem(this.header);
-    this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
     this.filesList = new ScrollableMenu();
     this.menu.addMenuItem(this.filesList);
   },
